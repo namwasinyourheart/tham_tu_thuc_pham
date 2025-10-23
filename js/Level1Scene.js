@@ -87,10 +87,15 @@ class Level1Scene extends Phaser.Scene {
             { x: 130, y: 150, width: 80, height: 80, explanation: 'Trang phục người bán hàng không sạch sẽ cũng là một dấu hiệu về điều kiện vệ sinh chung không đảm bảo.' }
         ];
 
+        
+
+        const clueCounterText = this.add.text(10, 10, `Manh mối: 0 / ${totalClues}`, { fontSize: '24px', fill: '#fff', stroke: '#000', strokeThickness: 4 });
+        clueCounterText.setDepth(20);
+
+        // --- THAY THẾ POPUP CŨ BẰNG POPUP MỚI ---
         const popupWidth = 700;
         const popupHeight = 400;
         const hootPopup = this.add.container(400, 300).setDepth(10).setVisible(false);
-
 
         const popupBackground = this.add.graphics();
         popupBackground.fillStyle(0xffffff, 0.95);
@@ -99,75 +104,24 @@ class Level1Scene extends Phaser.Scene {
         popupBackground.strokeRoundedRect(-popupWidth / 2, -popupHeight / 2, popupWidth, popupHeight, 20);
         hootPopup.add(popupBackground);
 
-
-        const hootImage = this.add.image(-popupWidth / 4, 0, 'hoot').setScale(0.5);
+        // SỬA LỖI: Tăng kích thước Cú Hoot và căn chỉnh lại vị trí
+        const hootImage = this.add.image(-popupWidth / 4, -20, 'hoot').setScale(1); // Tăng scale từ 0.5 lên 1
         hootPopup.add(hootImage);
-
 
         const textWidth = popupWidth / 2 - 40;
         const educationalText = this.add.text(
             popupWidth / 4,
             -20,
             '',
-            { fontSize: '20px', fill: '#333', align: 'center', wordWrap: { width: textWidth } }
+            { fontSize: '22px', fill: '#333', align: 'center', wordWrap: { width: textWidth } } // Tăng font size
         ).setOrigin(0.5);
         hootPopup.add(educationalText);
-
 
         const closeButton = this.add.text(
             popupWidth / 4,
-            popupHeight / 2 - 40,
+            popupHeight / 2 - 50,
             'Đã hiểu!',
-            { fontSize: '22px', fill: '#007bff' }
-        ).setOrigin(0.5).setInteractive();
-        hootPopup.add(closeButton);
-
-
-        closeButton.on('pointerdown', () => {
-            this.sound.play('correct_sfx', { volume: 0.8 });
-            hootPopup.setVisible(false);
-            if (cluesFound === totalClues) {
-                this.add.text(400, 300, 'BẠN ĐÃ PHÁ ÁN XONG!\nTuyệt vời!', { fontSize: '40px', fill: '#0f0', align: 'center' }).setOrigin(0.5).setDepth(20);
-            }
-        });
-
-
-
-        const clueCounterText = this.add.text(10, 10, `Manh mối: 0 / ${totalClues}`, { fontSize: '24px', fill: '#fff', stroke: '#000', strokeThickness: 4 });
-        clueCounterText.setDepth(20);
-
-        const hootPopup = this.add.container(800, 0).setDepth(10).setVisible(false);
-        
-        const bubbleWidth = 320;
-        const bubbleHeight = 180;
-        const bubbleX = -bubbleWidth - 120;
-        const bubbleY = 80;
-
-        const bubble = this.add.graphics();
-        bubble.fillStyle(0xffffff, 0.95);
-        bubble.lineStyle(3, 0x543829, 1);
-        bubble.fillRoundedRect(bubbleX, bubbleY, bubbleWidth, bubbleHeight, 20);
-        bubble.strokeRoundedRect(bubbleX, bubbleY, bubbleWidth, bubbleHeight, 20);
-        bubble.fillTriangle(bubbleX + bubbleWidth, bubbleY + 70, bubbleX + bubbleWidth + 20, bubbleY + 80, bubbleX + bubbleWidth, bubbleY + 90);
-        bubble.strokeTriangle(bubbleX + bubbleWidth, bubbleY + 70, bubbleX + bubbleWidth + 20, bubbleY + 80, bubbleX + bubbleWidth, bubbleY + 90);
-        hootPopup.add(bubble);
-
-        const hootImage = this.add.image(-60, 160, 'hoot').setScale(0.8);
-        hootPopup.add(hootImage);
-
-        const educationalText = this.add.text(
-            bubbleX + bubbleWidth / 2,
-            bubbleY + 75,
-            '',
-            { fontSize: '18px', fill: '#333', align: 'center', wordWrap: { width: bubbleWidth - 40 } }
-        ).setOrigin(0.5);
-        hootPopup.add(educationalText);
-
-        const closeButton = this.add.text(
-            bubbleX + bubbleWidth / 2,
-            bubbleY + bubbleHeight - 30,
-            'Đã hiểu!',
-            { fontSize: '20px', fill: '#007bff' }
+            { fontSize: '24px', fill: '#007bff', fontStyle: 'bold' } // Chỉnh style nút
         ).setOrigin(0.5).setInteractive();
         hootPopup.add(closeButton);
 
